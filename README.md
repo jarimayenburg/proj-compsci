@@ -7,19 +7,18 @@
 * Youri Moll (10714235)
 
 
-## The souce
+## The source
 
 
 ## Prerequisites
 
 What you will need to install in order to run the code:
 
-### python 3 libraries
+### Python 3 libraries
 
 ```
 libs
 ```
-
 
 ## Built With
 
