@@ -1,176 +1,215 @@
-figs/*
-env/*
+# Created by https://www.gitignore.io/api/vim,linux,macos,python,windows,virtualenv
+# Edit at https://www.gitignore.io/?templates=vim,linux,macos,python,windows,virtualenv
 
-## basic filetypes
-.csv
-.*.leaderboard
-*.tar.gz
-*.hi
-*.o
-*.hx
-*.exe
-*.beam
-*.tar
-*.log
-*.dump
-.vscode/*
-*.y
-.idea
-result.txt
-lemon
+### Linux ###
+*~
 
+# temporary files which can be created if a process still has a handle open of a deleted file
+.fuse_hidden*
+
+# KDE directory preferences
+.directory
+
+# Linux trash folder which might appear on any partition or disk
+.Trash-*
+
+# .nfs files are created when an open file is removed but is still being accessed
+.nfs*
+
+### macOS ###
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+### Python ###
+# Byte-compiled / optimized / DLL files
 __pycache__/
-.ipynb_checkpoints/
+*.py[cod]
+*$py.class
 
-## Bron: https://github.com/github/gitignore
+# C extensions
+*.so
 
-## Core latex/pdflatex auxiliary files:
-*.aux
-*.lof
-*.log
-*.lot
-*.fls
-*.out
-*.toc
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
 
-## Intermediate documents:
-*.dvi
-*-converted-to.*
-# these rules might exclude image files for figures etc.
-# *.ps
-# *.eps
-*.pdf
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
 
-## Bibliography auxiliary files (bibtex/biblatex/biber):
-*.bbl
-*.bcf
-*.blg
-*-blx.aux
-*-blx.bib
-*.brf
-*.run.xml
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
 
-## Build tool auxiliary files:
-*.fdb_latexmk
-*.synctex
-*.synctex.gz
-*.synctex.gz(busy)
-*.pdfsync
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
 
-## Auxiliary and intermediate files from other packages:
+# Translations
+*.mo
+*.pot
 
+# Scrapy stuff:
+.scrapy
 
-# algorithms
-*.alg
-*.loa
+# Sphinx documentation
+docs/_build/
 
-# achemso
-acs-*.bib
+# PyBuilder
+target/
 
-# amsthm
-*.thm
+# pyenv
+.python-version
 
-# attachfile2
-*.atfi
+# pipenv
+#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
+#   However, in case of collaboration, if having platform-specific dependencies or dependencies
+#   having no cross-platform support, pipenv may install dependencies that don't work, or not
+#   install all needed dependencies.
+#Pipfile.lock
 
-# beamer
-*.nav
-*.snm
-*.vrb
+# celery beat schedule file
+celerybeat-schedule
 
-#(e)ledmac/(e)ledpar
-*.end
-*.[1-9]
-*.[1-9][0-9]
-*.[1-9][0-9][0-9]
-*.[1-9]R
-*.[1-9][0-9]R
-*.[1-9][0-9][0-9]R
-*.eledsec[1-9]
-*.eledsec[1-9]R
-*.eledsec[1-9][0-9]
-*.eledsec[1-9][0-9]R
-*.eledsec[1-9][0-9][0-9]
-*.eledsec[1-9][0-9][0-9]R
+# SageMath parsed files
+*.sage.py
 
-# glossaries
-*.acn
-*.acr
-*.glg
-*.glo
-*.gls
+# Spyder project settings
+.spyderproject
+.spyproject
 
-# gnuplottex
-*-gnuplottex-*
+# Rope project settings
+.ropeproject
 
-# hyperref
-*.brf
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
 
-# knitr
-*-concordance.tex
-*.tikz
-*-tikzDictionary
+# mkdocs documentation
+/site
 
-# listings
-*.lol
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
 
-# makeidx
-*.idx
-*.ilg
-*.ind
-*.ist
+# Pyre type checker
+.pyre/
 
-# minitoc
-*.maf
-*.mtc
-*.mtc[0-9]
-*.mtc[1-9][0-9]
+### Vim ###
+# Swap
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
 
-# minted
-_minted*
-*.pyg
+# Session
+Session.vim
+Sessionx.vim
 
-# morewrites
-*.mw
+# Temporary
+.netrwhist
 
-# mylatexformat
-*.fmt
+# Auto-generated tag files
+tags
 
-# nomencl
-*.nlo
+# Persistent undo
+[._]*.un~
 
-# sagetex
-*.sagetex.sage
-*.sagetex.py
-*.sagetex.scmd
+# Coc configuration directory
+.vim
 
-# sympy
-*.sout
-*.sympy
-sympy-plots-for-*.tex/
+### VirtualEnv ###
+# Virtualenv
+# http://iamzed.com/2009/05/07/a-primer-on-virtualenv/
+pyvenv.cfg
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+pip-selfcheck.json
 
-#pythontex
-*.pytxcode
-pythontex-files-*/
+### Windows ###
+# Windows thumbnail cache files
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
 
-# Texpad
-.texpadtmp
+# Dump file
+*.stackdump
 
-# TikZ & PGF
-*.dpth
-*.md5
-*.auxlock
+# Folder config file
+[Dd]esktop.ini
 
-# todonotes
-*.tdo
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
 
-# xindy
-*.xdy
+# Windows Installer files
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
 
-# WinEdt
-*.bak
-*.sav
+# Windows shortcuts
+*.lnk
 
-# endfloat
-*.ttt
-*.fff
+# End of https://www.gitignore.io/api/vim,linux,macos,python,windows,virtualenv
