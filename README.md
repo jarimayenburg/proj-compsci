@@ -20,8 +20,6 @@ What you will need to install in order to run the code:
 libs
 ```
 
-### The datasets:
-
 
 ## Built With
 
