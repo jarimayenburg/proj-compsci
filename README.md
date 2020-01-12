@@ -1,4 +1,4 @@
-# proj-compsci
+# Wildfire simulation using CAs (Project CompSci 2020)
 
 ## Authors
 
