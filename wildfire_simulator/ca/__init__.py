@@ -1,1 +1,1 @@
-from ca import CA
+from .ca import CA

@@ -5,8 +5,8 @@
 from ca import CA
 
 class Simulation:
-    def __init__(self):
-        self.ca = CA()
+    def __init__(self, grid_size=100):
+        self.ca = CA(grid_size)
 
     def run(self):
         pass
