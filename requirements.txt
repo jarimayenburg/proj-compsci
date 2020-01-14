@@ -1,1 +1,2 @@
 cellular-automaton==0.2.0
+pycodestyle==2.5.0
