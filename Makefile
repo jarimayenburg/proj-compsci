@@ -14,5 +14,8 @@ env:
 clean:
 	rm -rf env
 
+pep8:
+	find . | grep '.py$$' | grep -v '^\./env' | grep -v '^\./\.' | grep -v '\./personal_test' | xargs pycodestyle --ignore=E402,W503,W504
+
 run:
 	@python3 wildfire_simulator
