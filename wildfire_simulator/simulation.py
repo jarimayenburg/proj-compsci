@@ -4,6 +4,7 @@
 
 from ca import CA
 
+
 class Simulation:
     def __init__(self, grid_size=100):
         self.ca = CA(grid_size)
