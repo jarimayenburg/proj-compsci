@@ -15,7 +15,7 @@ clean:
 	rm -rf env
 
 pep8:
-	@find . | grep '.py$$' | grep -v '^\./env' | grep -v '^\./\.' | grep -v '\./personal_test' | xargs python3 -m pycodestyle --ignore=E402,W503,W504
+	@find wildfire_simulator -type f -name "*.py" -exec pycodestyle --ignore=E402,W503,W504 {} \;
 
 run:
 	@python3 wildfire_simulator
