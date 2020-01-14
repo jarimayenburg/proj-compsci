@@ -2,6 +2,7 @@
 # Defines a CA within the context of the simulation
 #
 
+
 class CA:
     def __init__(self, grid_size):
         self.grid_size = grid_size
