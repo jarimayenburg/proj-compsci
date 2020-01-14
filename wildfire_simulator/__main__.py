@@ -1,6 +1,7 @@
 #! /usr/bin/env python3
 
-import app
+from simulation import Simulation
 
 if __name__ == '__main__':
-    app.run()
+    sim = Simulation()
+    sim.run()
