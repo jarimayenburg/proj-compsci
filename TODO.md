@@ -1,8 +1,8 @@
 Todo:
 - CA evolution rule
-- Initial state input reader
-    - Input files contain NxM digits representing cell states (0 - 3)
-    - Reader should read this file and build a CA with initial cell states
+x Initial state input reader
+    x Input files contain NxM digits representing cell states (0 - 3)
+    x Reader should read this file and build a CA with initial cell states
 - Visualization
     - The CA library probably has this
 

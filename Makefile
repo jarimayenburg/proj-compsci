@@ -14,8 +14,5 @@ env:
 clean:
 	rm -rf env
 
-pep8:
-	@find wildfire_simulator -type f -name "*.py" -exec pycodestyle --ignore=E402,W503,W504 {} \;
-
-run:
-	@python3 wildfire_simulator
+pep8: env_active
+	@find wildfire_simulator -type f -name "*.py" -exec pycodestyle {} \;
