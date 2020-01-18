@@ -72,6 +72,9 @@ class CA:
         if not type(grid) is list or not type(grid[0]) is list:
             raise CAGridInvalidError("Grid should be a 2D list")
 
+        if not all(cell is int for line in grid for cell in line):
+            raise CAGridInvalidError("Grid should contain only digits.")
+
         if not all(len(line) == len(grid[0]) for line in grid):
             raise CAGridInvalidError("Grid should be rectangular")
 
