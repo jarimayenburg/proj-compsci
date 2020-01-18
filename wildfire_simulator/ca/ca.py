@@ -1,9 +1,9 @@
-#
-# Defines a CA within the context of the simulation
-#
+"""Defines a CA within the context of the simulation."""
 
 
 class CA:
+    """Defines a CA withing the context of the wildfire simulation."""
+
     # Possible states of a cell in the CA:
     #  0: Flammable
     #  1: Burning
@@ -12,14 +12,16 @@ class CA:
     STATES = [0, 1, 2, 3]
 
     def __init__(self, grid):
+        """Construct a CA."""
         self.grid = grid
 
     def step(self):
+        """Evolve the CA to the next step."""
         pass
 
     def from_file(filename):
         """
-        Static method that creates a CA using a grid file.
+        Create a CA using a grid file.
 
         Args:
         - filenme: Path to the file the read the CA grid from
@@ -30,7 +32,7 @@ class CA:
 
     def read_from_file(filename):
         """
-        Static method that reads a CA from a file.
+        Read a CA from a file.
 
         Args:
         - filename: Path to the file to read the CA grid from
@@ -58,7 +60,7 @@ class CA:
 
     def validate(grid):
         """
-        Static method that validates whether a CA grid is valid.
+        Validate whether a CA grid is valid.
 
         A CA grid is valid if it's:
          1. Rectangular
@@ -80,5 +82,6 @@ class CA:
 
 
 class CAGridInvalidError(ValueError):
-    """Raised when a CA grid is invalid"""
+    """Raised when a CA grid is invalid."""
+
     pass

@@ -1,4 +1,5 @@
 #! /usr/bin/env python3
+"""Entry point of the wildfire simulation."""
 
 import sys
 from simulation import Simulation
