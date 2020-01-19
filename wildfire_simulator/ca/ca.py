@@ -1,25 +1,28 @@
 """Defines a CA within the context of the simulation."""
 
+from matplotlib.colors import ListedColormap
+from .state import State
+from .evolution_rules import NNEvolutionRule
+
 
 class CA:
     """Defines a CA withing the context of the wildfire simulation."""
 
-    # Possible states of a cell in the CA:
-    #  0: Flammable
-    #  1: Burning
-    #  2: Burned out
-    #  3: Inflammable
-    STATES = [0, 1, 2, 3]
+    STATE_COLORMAP = ListedColormap(['green', 'orange', 'black', 'grey'])
 
-    def __init__(self, grid):
+    def __init__(self, grid, evolution_rule):
         """Construct a CA."""
         self.grid = grid
+        self.evolution_rule = evolution_rule
 
     def step(self):
         """Evolve the CA to the next step."""
-        pass
 
-    def from_file(filename):
+    def grid_as_ints(self):
+        """Export the CA grid to be used to print a matplotlib image."""
+        return [[cell.value for cell in row] for row in self.grid]
+
+    def from_file(filename, evolution_rule=NNEvolutionRule):
         """
         Create a CA using a grid file.
 
@@ -28,7 +31,7 @@ class CA:
         """
         grid = CA.read_from_file(filename)
 
-        return CA(grid)
+        return CA(grid, evolution_rule())
 
     def read_from_file(filename):
         """
@@ -49,7 +52,9 @@ class CA:
                     if not line or line.startswith("#"):
                         continue
 
-                    grid.append(list(map(int, list(line))))
+                    state_ints = list(map(int, list(line)))
+
+                    grid.append(list(map(State, state_ints)))
 
             # Validate that what's been read is a valid CA grid
             CA.validate(grid)
@@ -72,16 +77,11 @@ class CA:
         if not type(grid) is list or not type(grid[0]) is list:
             raise CAGridInvalidError("Grid should be a 2D list")
 
-        if not all(isinstance(cell, int) for line in grid for cell in line):
-            raise CAGridInvalidError("Grid should contain only digits.")
+        if not all(isinstance(cell, State) for line in grid for cell in line):
+            raise CAGridInvalidError("Grid should contain State objects.")
 
         if not all(len(line) == len(grid[0]) for line in grid):
             raise CAGridInvalidError("Grid should be rectangular")
-
-        if not all(cell in CA.STATES for line in grid for cell in line):
-            raise CAGridInvalidError(
-                "Grid cell values should be one of {}".format(CA.STATES)
-            )
 
 
 class CAGridInvalidError(ValueError):
