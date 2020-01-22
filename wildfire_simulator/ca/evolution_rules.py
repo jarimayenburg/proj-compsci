@@ -7,12 +7,27 @@ class NNEvolutionRule:
     def evolve(self, cell, neighborhood):
         """Evolve a cell in a CA."""
 
-    def pburn(self):
+    def pburn(self, cell):
         """Probability that a cell will start buring"""
-        # TODO: Implementation
+        p0 = 0.58
+        pv = self.pveg(cell)
+        pd = self.pdens(cell)
+        pw = self.pwind()
+        ps = self.pslope()
+        return p0 * (1 + pv) * (1 + pd) * pw * ps
 
-    def pveg(self, veg):
-        """ """
+    def pwind(self):
+        """Wind coeffiecient of fire spread:"""
+        return 1
+
+    def pslope(self):
+        """Slope coefficient of fire spread"""
+        return 1
+
+    def pveg(self, cell):
+        """vegitation coeffiecient of fire spread"""
+        #  TODO: get veg index
+        veg = 'forst'
         if veg is 'noveg':
             return -1
         elif veg is 'agriculture':
@@ -22,15 +37,17 @@ class NNEvolutionRule:
         else:
             raise Exception('invalid vegitation type')
 
-    def pdens(self, veg):
+    def pdens(self, cell):
         """Density coefficient for the spread of forest fires"""
-        if veg is 'noveg':
+        # TODO: get dens index
+        dens = 'normal'
+        if dens is 'noveg':
                 return -1
-        elif veg is 'sparse':
+        elif dens is 'sparse':
             return -0.3
-        elif veg is 'normal':
+        elif dens is 'normal':
             return 0
-        elif veg is 'dense':
+        elif dens is 'dense':
             return 0.3
         else:
             raise Exception('invalid vegitation density')
