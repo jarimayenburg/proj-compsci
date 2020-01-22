@@ -1,5 +1,6 @@
 """Defines a CA within the context of the simulation."""
 
+import numpy as np
 from matplotlib.colors import ListedColormap
 from .state import State
 from .evolution_rules import NNEvolutionRule
@@ -17,10 +18,6 @@ class CA:
 
     def step(self):
         """Evolve the CA to the next step."""
-
-    def grid_as_ints(self):
-        """Export the CA grid to be used to print a matplotlib image."""
-        return [[cell.value for cell in row] for row in self.grid]
 
     def from_file(filename, evolution_rule=NNEvolutionRule):
         """
@@ -54,11 +51,15 @@ class CA:
 
                     state_ints = list(map(int, list(line)))
 
-                    grid.append(list(map(State, state_ints)))
+                    grid.append(state_ints)
+
+            # make it into a numpy array for faster accessing
+            grid = np.array(grid)
 
             # Validate that what's been read is a valid CA grid
-            CA.validate(grid)
+            # CA.validate(grid)
         except Exception as e:
+            # raise e
             raise ValueError("Invalid grid file") from e
 
         return grid
