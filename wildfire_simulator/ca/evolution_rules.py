@@ -15,20 +15,22 @@ class NNEvolutionRule:
         """ """
         if veg is noveg:
             return -1
-        else if veg is agriculture:
+        elif veg is agriculture:
             return -0.4
-        else if veg is forest or veg is Shrubland:
+        elif veg is forest or veg is Shrubland:
             return 0.4
         else:
             raise Error
+
     def pdens(self, veg):
+        """Density coefficient for the spread of forest fires"""
         if veg is noveg:
                 return -1
-        else if veg is sparse:
+        elif veg is sparse:
             return -0.3
-        else if veg is normal:
+        elif veg is normal:
             return 0
-        else if veg is dense:
+        elif veg is dense:
             return 0.3
         else:
             raise Error
