@@ -13,24 +13,24 @@ class NNEvolutionRule:
 
     def pveg(self, veg):
         """ """
-        if veg is noveg:
+        if veg is 'noveg':
             return -1
-        elif veg is agriculture:
+        elif veg is 'agriculture':
             return -0.4
-        elif veg is forest or veg is Shrubland:
+        elif veg is 'forest' or veg is 'Shrubland':
             return 0.4
         else:
-            raise Error
+            raise Exception('invalid vegitation type')
 
     def pdens(self, veg):
         """Density coefficient for the spread of forest fires"""
-        if veg is noveg:
+        if veg is 'noveg':
                 return -1
-        elif veg is sparse:
+        elif veg is 'sparse':
             return -0.3
-        elif veg is normal:
+        elif veg is 'normal':
             return 0
-        elif veg is dense:
+        elif veg is 'dense':
             return 0.3
         else:
-            raise Error
+            raise Exception('invalid vegitation density')
