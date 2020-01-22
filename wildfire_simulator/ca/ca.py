@@ -1,10 +1,8 @@
 """Defines a CA within the context of the simulation."""
 
-import numpy as np
 from matplotlib.colors import ListedColormap
 from .state import State
 from .evolution_rules import NNEvolutionRule
-
 
 class CA:
     """Defines a CA withing the context of the wildfire simulation."""
