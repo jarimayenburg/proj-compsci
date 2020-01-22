@@ -1,9 +1,11 @@
 """Defines a CA within the context of the simulation."""
 
+
+# Requirements:
 from matplotlib.colors import ListedColormap
 from .state import State
 from .evolution_rules import NNEvolutionRule
-
+from copy import deepcopy
 
 class CA:
     """Defines a CA withing the context of the wildfire simulation."""
@@ -17,6 +19,9 @@ class CA:
 
     def step(self):
         """Evolve the CA to the next step."""
+        new_grid = deepcopy(self.grid)
+
+
 
     def grid_as_ints(self):
         """Export the CA grid to be used to print a matplotlib image."""
