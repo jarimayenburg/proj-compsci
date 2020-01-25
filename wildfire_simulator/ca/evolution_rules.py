@@ -6,7 +6,7 @@ class NNEvolutionRule:
 
     def evolve(self, cell, neighborhood):
         """Evolve a cell in a CA."""
-        
+
         return cell
 
     def pburn(self, cell):
@@ -29,7 +29,8 @@ class NNEvolutionRule:
     def pveg(self, cell):
         """Vegitation coeffiecient of fire spread."""
         #  TODO: get veg index
-        veg = 'for'
+        veg = cell.veg
+
         if veg == 'nov':
             return -1
         elif veg == 'agr':
@@ -42,7 +43,8 @@ class NNEvolutionRule:
     def pdens(self, cell):
         """Density coefficient for the spread of forest fires."""
         # TODO: get dens index
-        dens = 'nor'
+        dens = cell.dens
+
         if dens == 'nov':
             return -1
         elif dens == 'spa':
