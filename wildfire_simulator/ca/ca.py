@@ -6,16 +6,17 @@ from .cell import Cell
 from .evolution_rules import NNEvolutionRule
 from random import randint
 
-
 class CA:
     """Defines a CA withing the context of the wildfire simulation."""
 
     STATE_COLORMAP = ListedColormap(['green', 'orange', 'black', 'grey'])
 
-    def __init__(self, grid, evolution_rule):
+    def __init__(self, grid, evolution_rule, wind_dir=np.array([1, -4]), wind_speed=5):
         """Construct a CA."""
         self.grid = grid
         self.evolution_rule = evolution_rule
+        self.wind_dir = wind_dir / np.linalg.norm(wind_dir)
+        self.wind_speed = wind_speed
 
     def step(self):
         """Evolve the CA to the next step."""
@@ -24,16 +25,14 @@ class CA:
         # with non-flammable cells
         grid = np.pad(self.grid, 1, 'constant', constant_values=Cell(3))
         new_grid = []
-        print('stepping')
         height, width = grid.shape
         for y in range(1, height-1):
             row = []
             for x in range(1, width-1):
-                cell = self.evolution_rule.evolve(grid[y, x], grid[y-1:y+2, x-1:x+2])
+                cell = self.evolution_rule.evolve(grid[y, x], grid[y-1:y+2, x-1:x+2], self.wind_dir, self.wind_speed)
                 row.append(cell)
 
             new_grid.append(row)
-
         self.grid = np.array(new_grid)
 
     def grid_as_ints(self):
