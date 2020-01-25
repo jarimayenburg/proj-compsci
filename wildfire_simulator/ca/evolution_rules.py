@@ -1,5 +1,10 @@
 """Contains a class defining how to evolve a CA."""
-
+from .cell import Cell
+import random
+# FLAMMABLE = 0
+# BURNING = 1
+# BURNED_OUT = 2
+# NON_FLAMMABLE = 3
 
 class NNEvolutionRule:
     """Defines how to evolve a CA using nearest neighbor."""
@@ -7,9 +12,28 @@ class NNEvolutionRule:
     def evolve(self, cell, neighborhood):
         """Evolve a cell in a CA."""
 
-        return cell
+        ret_cell = Cell(cell.state, cell.veg, cell.dens)
 
-    def pburn(self, cell):
+        if cell.state is 1:
+            ret_cell.state = 2
+        elif cell.state is 0:
+            burning = 0
+
+            for row in neighborhood:
+                for elem in row:
+                    if elem.state is 1:
+                        burning += 1
+
+            p = self.pburn(cell, neighborhood)**burning
+
+            rand = random.random()
+
+            if p < rand:
+                ret_cell.state = 1
+
+        return ret_cell
+
+    def pburn(self, cell, neighborhood):
         """Probability that a cell will start buring."""
         p0 = 0.58
         pv = self.pveg(cell)
@@ -28,7 +52,6 @@ class NNEvolutionRule:
 
     def pveg(self, cell):
         """Vegitation coeffiecient of fire spread."""
-        #  TODO: get veg index
         veg = cell.veg
 
         if veg == 'nov':
@@ -42,7 +65,6 @@ class NNEvolutionRule:
 
     def pdens(self, cell):
         """Density coefficient for the spread of forest fires."""
-        # TODO: get dens index
         dens = cell.dens
 
         if dens == 'nov':

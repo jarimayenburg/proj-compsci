@@ -24,7 +24,7 @@ class CA:
         # with non-flammable cells
         grid = np.pad(self.grid, 1, 'constant', constant_values=Cell(3))
         new_grid = []
-
+        print('stepping')
         height, width = grid.shape
         for y in range(1, height-1):
             row = []
