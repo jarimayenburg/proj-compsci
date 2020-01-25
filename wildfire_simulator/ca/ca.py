@@ -1,8 +1,11 @@
 """Defines a CA within the context of the simulation."""
 
+import numpy as np
 from matplotlib.colors import ListedColormap
-from .state import State
+from .cell import Cell
 from .evolution_rules import NNEvolutionRule
+from random import randint
+
 
 class CA:
     """Defines a CA withing the context of the wildfire simulation."""
@@ -16,6 +19,27 @@ class CA:
 
     def step(self):
         """Evolve the CA to the next step."""
+
+        # For the purpose of creating a grid with proper borders, we pad it
+        # with non-flammable cells
+        grid = np.pad(self.grid, 1, 'constant', constant_values=Cell(3))
+        new_grid = []
+
+        height, width = grid.shape
+        for y in range(1, height-1):
+            row = []
+            for x in range(1, width-1):
+                cell = self.evolution_rule.evolve(grid[y, x], grid[y-1:y+2, x-1:x+2])
+                row.append(cell)
+
+            new_grid.append(row)
+
+        self.grid = np.array(new_grid)
+
+    def grid_as_ints(self):
+        """Return the CA grid as integers representing the states"""
+
+        return np.array([[cell.state for cell in row] for row in self.grid])
 
     def from_file(filename, evolution_rule=NNEvolutionRule):
         """
@@ -49,15 +73,14 @@ class CA:
 
                     state_ints = list(map(int, list(line)))
 
-                    grid.append(state_ints)
+                    grid.append(list(map(Cell, state_ints)))
 
             # make it into a numpy array for faster accessing
             grid = np.array(grid)
 
             # Validate that what's been read is a valid CA grid
-            # CA.validate(grid)
+            CA.validate(grid)
         except Exception as e:
-            # raise e
             raise ValueError("Invalid grid file") from e
 
         return grid
@@ -73,10 +96,10 @@ class CA:
         Args:
         - grid: The grid to validate
         """
-        if not type(grid) is list or not type(grid[0]) is list:
-            raise CAGridInvalidError("Grid should be a 2D list")
+        if not type(grid) is np.ndarray or not grid.ndim == 2:
+            raise CAGridInvalidError("Grid should be a 2D Numpy array")
 
-        if not all(isinstance(cell, State) for line in grid for cell in line):
+        if not all(isinstance(cell, Cell) for line in grid for cell in line):
             raise CAGridInvalidError("Grid should contain State objects.")
 
         if not all(len(line) == len(grid[0]) for line in grid):
