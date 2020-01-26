@@ -6,6 +6,7 @@ from .cell import Cell
 from .evolution_rules import NNEvolutionRule
 from random import randint
 
+
 class CA:
     """Defines a CA withing the context of the wildfire simulation."""
 

@@ -3,10 +3,7 @@ from .cell import Cell
 import random
 import numpy as np
 import math
-# FLAMMABLE = 0
-# BURNING = 1
-# BURNED_OUT = 2
-# NON_FLAMMABLE = 3
+
 
 class NNEvolutionRule:
     """Defines how to evolve a CA using nearest neighbor."""
@@ -27,7 +24,7 @@ class NNEvolutionRule:
                     if x is 1 and y is 1:
                         continue
                     # if the neighbor is not burning, we skip
-                    if not neighborhood[x,y].state is 1:
+                    if not neighborhood[x, y].state is 1:
                         continue
 
                     # get the angle between the burning neightbour and the wind direction
@@ -59,7 +56,7 @@ class NNEvolutionRule:
 
     def pwind(self, theta_w, wind_speed, c1=0.045, c2=0.131):
         """Wind coeffiecient of fire spread."""
-        return np.exp(wind_speed * (c1 *c2 * (np.cos(theta_w - 1))))
+        return np.exp(wind_speed * (c1 * c2 * (np.cos(theta_w - 1))))
 
     def pslope(self):
         """Slope coefficient of fire spread."""
