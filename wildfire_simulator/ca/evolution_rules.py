@@ -19,33 +19,29 @@ class NNEvolutionRule:
         if cell.state is 1:
             ret_cell.state = 2
         elif cell.state is 0:
-            p = 1
-            burningneighbors = 0
-
             for x in range(len(neighborhood)):
                 for y in range(len(neighborhood[x])):
 
                     # skip if we are lookng at the current cell
                     if x is 1 and y is 1:
                         continue
+                    # if the neighbor is not burning, we skip
                     if not neighborhood[x,y].state is 1:
                         continue
 
-                    burningneighbors += 1
-
-                    old_pos = np.array([x-1, y-1])
-
-                    pos = old_pos / np.linalg.norm(old_pos)
-
+                    # get the angle between the burning neightbour and the wind direction
+                    pos = np.array([x-1, y-1])
+                    pos = pos / np.linalg.norm(pos)
                     theta_w = np.arccos(np.dot(pos, wind_dir))
 
-                    p *= self.pburn(cell, theta_w, wind_speed)
+                    # get the probability that the current cell will ignite
+                    p = self.pburn(cell, theta_w, wind_speed)
 
-            if burningneighbors > 0:
-                rand = random.random()
+                    rand = random.random()
 
-                if rand < p:
-                    ret_cell.state = 1
+                    if p < rand:
+                        ret_cell.state = 1
+                        return ret_cell
 
         return ret_cell
 
