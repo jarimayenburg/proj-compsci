@@ -19,6 +19,7 @@ class NNEvolutionRule:
         if cell.state is 1:
             ret_cell.state = 2
         elif cell.state is 0:
+            # check for each cell in the neighborhood
             for x in range(len(neighborhood)):
                 for y in range(len(neighborhood[x])):
 
