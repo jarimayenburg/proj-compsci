@@ -12,7 +12,16 @@ class CA:
     STATE_COLORMAP = ListedColormap(['green', 'orange', 'black', 'grey'])
 
     def __init__(self, grid, evolution_rule, wind_dir=np.array([1, -4]), wind_speed=5):
-        """Construct a CA."""
+        """
+        Construct a CA.
+
+        Args:
+        - grid: The grid containing the cells
+        - evolution rule: Defines how the ca evolves over time
+        - wind_dir: Direction of the wild, not that this is a vector. We do this because
+                    later, we have to calculate the angle between a buning cell, its neighbour and the wind
+        - wind_speed: The wind speed in meters per second
+        """
         self.grid = grid
         self.evolution_rule = evolution_rule
         self.wind_dir = wind_dir / np.linalg.norm(wind_dir)
