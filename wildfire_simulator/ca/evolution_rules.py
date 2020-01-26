@@ -43,6 +43,7 @@ class NNEvolutionRule:
                         ret_cell.state = 1
                         return ret_cell
 
+        # we are done
         return ret_cell
 
     def pburn(self, cell, theta_w, wind_speed):
