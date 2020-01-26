@@ -22,6 +22,7 @@ class CA:
                     later, we have to calculate the angle between a buning cell, its neighbour and the wind
         - wind_speed: The wind speed in meters per second
         """
+
         self.grid = grid
         self.evolution_rule = evolution_rule
         self.wind_dir = wind_dir / np.linalg.norm(wind_dir)
