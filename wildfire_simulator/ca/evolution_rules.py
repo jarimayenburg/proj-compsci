@@ -20,14 +20,18 @@ class NNEvolutionRule:
             ret_cell.state = 2
         elif cell.state is 0:
             p = 1
+            burningneighbors = 0
 
             for x in range(len(neighborhood)):
                 for y in range(len(neighborhood[x])):
+
                     # skip if we are lookng at the current cell
                     if x is 1 and y is 1:
                         continue
                     if not neighborhood[x,y].state is 1:
                         continue
+
+                    burningneighbors += 1
 
                     old_pos = np.array([x-1, y-1])
 
@@ -37,10 +41,11 @@ class NNEvolutionRule:
 
                     p *= self.pburn(cell, theta_w, wind_speed)
 
-            rand = random.random()
-            print(p)
-            if p < rand:
-                ret_cell.state = 1
+            if burningneighbors > 0:
+                rand = random.random()
+
+                if rand < p:
+                    ret_cell.state = 1
 
         return ret_cell
 
