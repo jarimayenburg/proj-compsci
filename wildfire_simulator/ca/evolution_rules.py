@@ -7,28 +7,33 @@ import math
 
 class NNEvolutionRule:
     """Defines how to evolve a CA using nearest neighbor."""
+    
+    # Base probability of a cell igniting
+    p0 = 0.50
 
-    def evolve(self, cell, neighborhood, wind_dir, wind_speed):
+    def evolve(self, orig_cell, neighborhood, wind_dir, wind_speed):
         """Evolve a cell in a CA."""
 
-        ret_cell = Cell(cell.state, cell.veg, cell.dens)
+        # Create a copy of the original cell
+        cell = orig_cell.copy()
 
-        if cell.state is 1:
-            ret_cell.state = 2
-        elif cell.state is 0:
+        if cell.state == 1:
+            cell.state = 2
+        elif cell.state == 0:
             # check for each cell in the neighborhood
-            for x in range(len(neighborhood)):
-                for y in range(len(neighborhood[x])):
+            for y in range(len(neighborhood)):
+                for x in range(len(neighborhood[y])):
 
                     # skip if we are lookng at the current cell
-                    if x is 1 and y is 1:
+                    if x == 1 and y == 1:
                         continue
                     # if the neighbor is not burning, we skip
-                    if not neighborhood[x, y].state is 1:
+                    if not neighborhood[y, x].state == 1:
                         continue
 
-                    # get the angle between the burning neightbour and the wind direction
-                    pos = np.array([x-1, y-1])
+                    # get the angle between the burning neightbour and the wind
+                    # direction
+                    pos = np.array([y-1, x-1])
                     pos = pos / np.linalg.norm(pos)
                     theta_w = np.arccos(np.dot(pos, wind_dir))
 
@@ -38,21 +43,20 @@ class NNEvolutionRule:
                     rand = random.random()
 
                     if p < rand:
-                        ret_cell.state = 1
-                        return ret_cell
+                        cell.state = 1
+                        return cell
 
         # we are done
-        return ret_cell
+        return cell
 
     def pburn(self, cell, theta_w, wind_speed):
         """Probability that a cell will start buring."""
-        p0 = 0.58
         pv = self.pveg(cell)
         pd = self.pdens(cell)
         pw = self.pwind(theta_w, wind_speed)
         ps = self.pslope()
 
-        return p0 * (1 + pv) * (1 + pd) * pw * ps
+        return NNEvolutionRule.p0 * (1 + pv) * (1 + pd) * pw * ps
 
     def pwind(self, theta_w, wind_speed, c1=0.045, c2=0.131):
         """Wind coeffiecient of fire spread."""

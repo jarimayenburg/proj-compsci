@@ -12,15 +12,17 @@ class CA:
 
     STATE_COLORMAP = ListedColormap(['green', 'orange', 'black', 'grey'])
 
-    def __init__(self, grid, evolution_rule, wind_dir=np.array([1, -4]), wind_speed=5):
+    def __init__(self, grid, evolution_rule, wind_dir=np.array([1, -4]),
+                 wind_speed=5):
         """
         Construct a CA.
 
         Args:
         - grid: The grid containing the cells
         - evolution rule: Defines how the ca evolves over time
-        - wind_dir: Direction of the wild, not that this is a vector. We do this because
-                    later, we have to calculate the angle between a buning cell, its neighbour and the wind
+        - wind_dir: Direction of the wild, note that this is a vector. We do
+                    this because later, we have to calculate the angle between
+                    a burning cell, its neighbor and the wind
         - wind_speed: The wind speed in meters per second
         """
 
@@ -35,12 +37,16 @@ class CA:
         # For the purpose of creating a grid with proper borders, we pad it
         # with non-flammable cells
         grid = np.pad(self.grid, 1, 'constant', constant_values=Cell(3))
+
         new_grid = []
         height, width = grid.shape
         for y in range(1, height-1):
             row = []
             for x in range(1, width-1):
-                cell = self.evolution_rule.evolve(grid[y, x], grid[y-1:y+2, x-1:x+2], self.wind_dir, self.wind_speed)
+                cell = self.evolution_rule.evolve(
+                        grid[y, x], grid[y-1:y+2, x-1:x+2], self.wind_dir,
+                        self.wind_speed
+                )
                 row.append(cell)
 
             new_grid.append(row)
