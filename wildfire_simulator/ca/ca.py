@@ -57,7 +57,7 @@ class CA:
     def generate_altitudes(self):
         for y, row in enumerate(self.grid, 1):
             for x, cell in enumerate(row, 1):
-                cell.alt = self.generate_altitude(x, y)
+                cell.alt = self.generate_altitude(x, y, 3)
 
     def generate_altitude(self, x, y, freq=1):
         """Generate an altitude for a coordinate."""
