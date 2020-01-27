@@ -1,6 +1,6 @@
 """Contains the simulation class, the outermost class of the simulation."""
 
-from ca import CA
+from ca import CA, NNEvolutionRule
 from matplotlib.animation import FuncAnimation
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -9,9 +9,20 @@ import matplotlib.pyplot as plt
 class Simulation:
     """Class simulating a wildfire."""
 
-    def __init__(self, grid_filename):
-        """Construct the simulation."""
-        self.ca = CA.from_file(grid_filename)
+    def __init__(self, grid_filename, interval=300):
+        """
+        Construct the simulation.
+
+        Params:
+        - grid_filename: Filename of the initial grid
+        - interval: Amount of miliseconds between frames of the animation
+        """
+
+        # Evolution rule that evolves a cell based on its neighbors.
+        evolution_rule = NNEvolutionRule()
+
+        self.ca = CA.from_file(grid_filename, evolution_rule)
+        self.interval = interval
 
     def run(self):
         """Run the simulation."""
@@ -28,5 +39,5 @@ class Simulation:
 
             return frame
 
-        animation = FuncAnimation(figure, animate, interval=1)
+        animation = FuncAnimation(figure, animate, interval=self.interval)
         plt.show()

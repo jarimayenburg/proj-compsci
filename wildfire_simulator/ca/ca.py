@@ -12,24 +12,17 @@ class CA:
 
     STATE_COLORMAP = ListedColormap(['green', 'orange', 'black', 'grey'])
 
-    def __init__(self, grid, evolution_rule, wind_dir=np.array([1, -4]),
-                 wind_speed=5):
+    def __init__(self, grid, evolution_rule):
         """
         Construct a CA.
 
         Args:
         - grid: The grid containing the cells
         - evolution rule: Defines how the ca evolves over time
-        - wind_dir: Direction of the wild, note that this is a vector. We do
-                    this because later, we have to calculate the angle between
-                    a burning cell, its neighbor and the wind
-        - wind_speed: The wind speed in meters per second
         """
 
         self.grid = grid
         self.evolution_rule = evolution_rule
-        self.wind_dir = wind_dir / np.linalg.norm(wind_dir)
-        self.wind_speed = wind_speed
 
     def step(self):
         """Evolve the CA to the next step."""
@@ -43,10 +36,7 @@ class CA:
         for y in range(1, height-1):
             row = []
             for x in range(1, width-1):
-                cell = self.evolution_rule.evolve(
-                        grid[y, x], grid[y-1:y+2, x-1:x+2], self.wind_dir,
-                        self.wind_speed
-                )
+                cell = self.evolution_rule.evolve(grid[y, x], grid[y-1:y+2, x-1:x+2])
                 row.append(cell)
 
             new_grid.append(row)
@@ -57,7 +47,7 @@ class CA:
 
         return np.array([[cell.state for cell in row] for row in self.grid])
 
-    def from_file(filename, evolution_rule=NNEvolutionRule):
+    def from_file(filename, evolution_rule):
         """
         Create a CA using a grid file.
 
@@ -66,7 +56,7 @@ class CA:
         """
         grid = CA.read_from_file(filename)
 
-        return CA(grid, evolution_rule())
+        return CA(grid, evolution_rule)
 
     def read_from_file(filename):
         """
