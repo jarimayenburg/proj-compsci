@@ -29,6 +29,7 @@ class NNEvolutionRule:
         # Create a copy of the original cell
         cell = orig_cell.copy()
 
+        #  if the cell is burning, it will have died out in the next frame
         if cell.state == 1:
             cell.state = 2
         elif cell.state == 0:

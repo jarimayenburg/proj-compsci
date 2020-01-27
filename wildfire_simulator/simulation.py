@@ -78,7 +78,8 @@ class Simulation:
 
     def scar_size_graph(self):
         """generate a graph of the size of the burn scar over time"""
-        pass
+        data = self.scar_size()
 
-
+        plt.plot(data)
+        plt.show()
 
