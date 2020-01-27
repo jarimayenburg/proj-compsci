@@ -4,6 +4,7 @@ from ca import CA, NNEvolutionRule
 from matplotlib.animation import FuncAnimation
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 class Simulation:
@@ -41,3 +42,44 @@ class Simulation:
 
         animation = FuncAnimation(figure, animate, interval=self.interval)
         plt.show()
+
+    def burned_cells(self):
+        """How many cells have burned down"""
+        burned = 0
+
+        for row in self.ca.grid:
+            for cell in row:
+                if cell.state is 2:
+                    burned += 1
+
+        return burned
+
+    def scar_size(self):
+        """monitor the size of the burn scar over time"""
+
+        burned = self.burned_cells()
+        prev_burned = -1
+        scar = np.array([burned])
+
+        # while there are still cells burning
+        while not prev_burned == burned:
+            # step
+            self.ca.step()
+
+            # increment the data we are interested in
+            prev_burned = burned
+            burned = self.burned_cells()
+
+            # remember the results
+            scar = np.append(scar, burned)
+
+        # and we are done
+        return scar
+
+    def scar_size_graph(self):
+        """generate a graph of the size of the burn scar over time"""
+        data = self.scar_size()
+
+        plt.plot(data)
+        plt.show()
+
