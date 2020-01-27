@@ -12,6 +12,9 @@ class Cell:
     1: The cell is burning
     2: The cell is burned out
 
+    Altitude.
+    The altitude of the cell, ranging from 0 to 1.
+
     Vegetation.
     The type of vegetation that can be found in this cell, the following
     vegetation types are supported:
@@ -28,13 +31,14 @@ class Cell:
     nov: No vegetation
     """
 
-    def __init__(self, state, veg='for', dens='nor'):
+    def __init__(self, state, alt=None, veg='for', dens='nor'):
         """Construct the Cell."""
         self.state = state
+        self.alt = alt
         self.veg = veg
         self.dens = dens
 
     def copy(self):
         """Create a copy of this cell"""
 
-        return Cell(self.state, self.veg, self.dens)
+        return Cell(self.state, self.alt, self.veg, self.dens)

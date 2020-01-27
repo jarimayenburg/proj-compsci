@@ -5,6 +5,7 @@ from matplotlib.colors import ListedColormap
 from .cell import Cell
 from .evolution_rules import NNEvolutionRule
 from random import randint
+from opensimplex import OpenSimplex
 
 
 class CA:
@@ -23,6 +24,10 @@ class CA:
 
         self.grid = grid
         self.evolution_rule = evolution_rule
+        self.gen = OpenSimplex()
+
+        # Generate altitudes for all the cells and set them
+        self.generate_altitudes()
 
     def step(self):
         """Evolve the CA to the next step."""
@@ -47,6 +52,18 @@ class CA:
 
         return np.array([[cell.state for cell in row] for row in self.grid])
 
+    def generate_altitudes(self):
+        for y, row in enumerate(self.grid, 1):
+            for x, cell in enumerate(row, 1):
+                cell.alt = self.generate_altitude(x, y)
+
+    def generate_altitude(self, x, y):
+        """Generate an altitude for a coordinate."""
+        h, w = self.grid.shape
+        nx, ny = x / w - 0.5, y / h - 0.5
+
+        return self.gen.noise2d(nx, ny) / 2.0 + 0.5
+
     def from_file(filename, evolution_rule):
         """
         Create a CA using a grid file.
@@ -69,7 +86,7 @@ class CA:
 
         try:
             with open(filename, "r") as grid_file:
-                for line in grid_file:
+                for y, line in enumerate(grid_file, 1):
                     # Strip of any leading and trailing whitespace
                     line = line.strip()
 
@@ -79,7 +96,7 @@ class CA:
 
                     state_ints = list(map(int, list(line)))
 
-                    grid.append(list(map(Cell, state_ints)))
+                    grid.append([Cell(state_ints[x]) for x in range(len(state_ints))])
 
             # make it into a numpy array for faster accessing
             grid = np.array(grid)
