@@ -7,7 +7,7 @@ import math
 
 class NNEvolutionRule:
     """Defines how to evolve a CA using nearest neighbor."""
-    
+
     def __init__(self, p0=0.5, wind_dir=np.array([1, 1]), wind_speed=5):
         """
         Construct the NNEvolutionRule
@@ -43,8 +43,8 @@ class NNEvolutionRule:
                     if not neighborhood[y, x].state == 1:
                         continue
 
-                    # The burn direction is the vector from the burning neighbor
-                    # to the cell.
+                    # The burn direction is the vector from the burning
+                    # neighbor to the cell.
                     burn_dir = np.array([1-x, 1-y])
                     burn_dir = burn_dir / np.linalg.norm(burn_dir)
 
@@ -78,8 +78,10 @@ class NNEvolutionRule:
 
         return np.exp(self.wind_speed * (c1 * c2 * (np.cos(theta_w - 1))))
 
-    def pslope(self):
+    def pslope(self, a_s=0.078):
         """Slope coefficient of fire spread."""
+
+        # Slope angle of the terrain
         return 1
 
     def pveg(self, cell):

@@ -41,7 +41,9 @@ class CA:
         for y in range(1, height-1):
             row = []
             for x in range(1, width-1):
-                cell = self.evolution_rule.evolve(grid[y, x], grid[y-1:y+2, x-1:x+2])
+                cell = self.evolution_rule.evolve(
+                    grid[y, x], grid[y-1:y+2, x-1:x+2]
+                )
                 row.append(cell)
 
             new_grid.append(row)
@@ -57,12 +59,12 @@ class CA:
             for x, cell in enumerate(row, 1):
                 cell.alt = self.generate_altitude(x, y)
 
-    def generate_altitude(self, x, y):
+    def generate_altitude(self, x, y, freq=1):
         """Generate an altitude for a coordinate."""
         h, w = self.grid.shape
         nx, ny = x / w - 0.5, y / h - 0.5
 
-        return self.gen.noise2d(nx, ny) / 2.0 + 0.5
+        return self.gen.noise2d(freq * nx, freq * ny) / 2.0 + 0.5
 
     def from_file(filename, evolution_rule, alt_seed=1):
         """
@@ -98,7 +100,7 @@ class CA:
 
                     state_ints = list(map(int, list(line)))
 
-                    grid.append([Cell(state_ints[x]) for x in range(len(state_ints))])
+                    grid.append(list(map(Cell, state_ints)))
 
             # make it into a numpy array for faster accessing
             grid = np.array(grid)
