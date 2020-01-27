@@ -8,7 +8,7 @@ import math
 class NNEvolutionRule:
     """Defines how to evolve a CA using nearest neighbor."""
 
-    def __init__(self, p0=0.5, wind_dir=np.array([1, 1]), wind_speed=5):
+    def __init__(self, p0=0.58, wind_dir=np.array([1, 1]), wind_speed=5):
         """
         Construct the NNEvolutionRule
 
@@ -48,8 +48,7 @@ class NNEvolutionRule:
                     p = self.pburn(cell, neighborhood[y, x])
 
                     rand = random.random()
-
-                    if p < rand:
+                    if rand < p:
                         cell.state = 1
                         return cell
 
@@ -61,7 +60,7 @@ class NNEvolutionRule:
         pv = self.pveg(cell)
         pd = self.pdens(cell)
         pw = self.pwind(cell, neighbor_cell)
-        ps = self.pslope()
+        ps = self.pslope(cell, neighbor_cell)
 
         return self.p0 * (1 + pv) * (1 + pd) * pw * ps
 
@@ -76,18 +75,27 @@ class NNEvolutionRule:
         burn_dir = np.array([x - nx, y - ny])
         burn_dir = burn_dir / np.linalg.norm(burn_dir)
 
-        # Get the angle between the burning neightbour and the wind
-        # direction
+        # Get the angle between the burn direction and the wind direction
         theta_w = np.arccos(np.dot(burn_dir, self.wind_dir))
 
         return np.exp(self.wind_speed * (c1 * c2 * (np.cos(theta_w - 1))))
 
-    def pslope(self, a_s=0.078):
+    def pslope(self, cell, neighbor_cell, a_s=0.078):
         """Slope coefficient of fire spread."""
 
-        # Slope angle of the terrain
+        # Difference in altitude
+        alt_diff = neighbor_cell.alt - cell.alt
 
-        return 1
+        # Horizontal distance between the cells.
+        x, y = cell.pos
+        nx, ny = neighbor_cell.pos
+        dx, dy = nx - x, ny - y
+        cell_dist = np.sqrt(dx**2 + dy**2) * Cell.diameter
+
+        # Slope angle of the terrain.
+        theta_s = np.arctan(alt_diff / cell_dist)
+
+        return np.exp(theta_s * a_s)
 
     def pveg(self, cell):
         """Vegitation coeffiecient of fire spread."""

@@ -16,7 +16,7 @@ class Cell:
     Position of the cell in the grid as an (x, y)-coordinate.
 
     Altitude.
-    The altitude of the cell, ranging from 0 to 1.
+    The altitude of the cell in meters
 
     Vegetation.
     The type of vegetation that can be found in this cell, the following
@@ -33,6 +33,9 @@ class Cell:
     spa: Sparse
     nov: No vegetation
     """
+
+    # Diameter of a cell
+    diameter = 100
 
     def __init__(self, state, pos=(-1, -1), alt=0.5, veg='for', dens='nor'):
         """Construct the Cell."""

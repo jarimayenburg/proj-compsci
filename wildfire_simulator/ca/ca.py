@@ -13,17 +13,20 @@ class CA:
 
     STATE_COLORMAP = ListedColormap(['green', 'orange', 'black', 'grey'])
 
-    def __init__(self, grid, evolution_rule, alt_seed=1):
+    def __init__(self, grid, evolution_rule, alt_seed=1, max_alt=1500):
         """
         Construct a CA.
 
         Args:
         - grid: The grid containing the cells
         - evolution rule: Defines how the ca evolves over time
+        - alt_seed: Seed for the landscape altitude generator
+        - max_alt: Maximum altitude in the CA
         """
 
         self.grid = grid
         self.evolution_rule = evolution_rule
+        self.max_alt = max_alt
         self.gen = OpenSimplex(seed=alt_seed)
 
         # Generate altitudes for all the cells and set them
@@ -64,7 +67,10 @@ class CA:
         h, w = self.grid.shape
         nx, ny = x / w - 0.5, y / h - 0.5
 
-        return self.gen.noise2d(freq * nx, freq * ny) / 2.0 + 0.5
+        # Altitude modifier, ranges from 0 to 1
+        alt_mod = self.gen.noise2d(freq * nx, freq * ny) / 2.0 + 0.5
+
+        return self.max_alt * alt_mod
 
     def from_file(filename, evolution_rule, alt_seed=1):
         """
