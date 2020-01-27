@@ -49,3 +49,40 @@ class Cell:
         """Create a copy of this cell"""
 
         return Cell(self.state, self.pos, self.alt, self.veg, self.dens)
+
+    def get_color(self):
+        if self.veg == 'nov' or self.dens == 'nov':
+            # Blue
+            return 0, 105, 148, 255
+
+        if self.state == 2:
+            # Black
+            return 0, 0, 0, 255
+        elif self.state == 1:
+            # Flame orange
+            return 230, 41, 44, 255
+
+        if self.veg == 'for':
+            # Forest green
+            return 13, 72, 13, self.density_as_int()
+        elif self.veg == 'agr':
+            # Wheat yellow
+            return 243, 231, 169, self.density_as_int()
+        elif self.veg == 'shr':
+            # Shrubland green
+            return 105, 200, 105, self.density_as_int()
+        elif self.veg == 'nov':
+            return 255, 255, 255, 255
+
+    def density_as_int(self):
+        """Return the vegetation density as an integer."""
+
+        if self.dens == 'den':
+            return 255
+        elif self.dens == 'nor':
+            return 170
+        elif self.dens == 'spa':
+            return 85
+        else:
+            return 0
+

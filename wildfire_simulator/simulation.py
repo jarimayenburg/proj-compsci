@@ -31,12 +31,12 @@ class Simulation:
         mpl.rcParams['toolbar'] = 'None'
 
         figure = plt.figure()
-        frame = plt.imshow(self.ca.grid_as_ints(), cmap=CA.STATE_COLORMAP)
+        frame = plt.imshow(self.ca.grid_as_pixels())
 
         # Animation function. Evolves the CA to the next step and draws it.
         def animate(i):
             self.ca.step()
-            frame.set_data(self.ca.grid_as_ints())
+            frame.set_data(self.ca.grid_as_pixels())
 
             return frame
 

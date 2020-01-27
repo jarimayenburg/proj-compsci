@@ -11,8 +11,6 @@ from opensimplex import OpenSimplex
 class CA:
     """Defines a CA withing the context of the wildfire simulation."""
 
-    STATE_COLORMAP = ListedColormap(['green', 'orange', 'black', 'grey'])
-
     def __init__(self, grid, evolution_rule, alt_seed=1, max_alt=1500):
         """
         Construct a CA.
@@ -52,10 +50,10 @@ class CA:
             new_grid.append(row)
         self.grid = np.array(new_grid)
 
-    def grid_as_ints(self):
-        """Return the CA grid as integers representing the states"""
+    def grid_as_pixels(self):
+        """Return the CA grid as RGB values representing the states"""
 
-        return np.array([[cell.state for cell in row] for row in self.grid])
+        return np.array([[cell.get_color() for cell in row] for row in self.grid])
 
     def generate_altitudes(self):
         for y, row in enumerate(self.grid, 1):
