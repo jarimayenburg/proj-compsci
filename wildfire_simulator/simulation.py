@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 class Simulation:
     """Class simulating a wildfire."""
 
-    def __init__(self, grid_filename, interval=300):
+    def __init__(self, grid_filename, interval=300, seed=1):
         """
         Construct the simulation.
 
@@ -21,7 +21,7 @@ class Simulation:
         # Evolution rule that evolves a cell based on its neighbors.
         evolution_rule = NNEvolutionRule()
 
-        self.ca = CA.from_file(grid_filename, evolution_rule)
+        self.ca = CA.from_file(grid_filename, evolution_rule, seed)
         self.interval = interval
 
     def run(self):
