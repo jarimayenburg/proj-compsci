@@ -49,7 +49,7 @@ class Simulation:
 
         for row in self.ca.grid:
             for cell in row:
-                if cell.state is 2:
+                if cell.state == 2:
                     burned += 1
 
         return burned

@@ -37,20 +37,15 @@ class NNEvolutionRule:
             for y in range(len(neighborhood)):
                 for x in range(len(neighborhood[y])):
 
-                    # Skip if we are lookng at the current cell
+                    # Skip if we are looking at the current cell
                     if x == 1 and y == 1:
                         continue
                     # If the neighbor is not burning, we skip
                     if not neighborhood[y, x].state == 1:
                         continue
 
-                    # The burn direction is the vector from the burning
-                    # neighbor to the cell.
-                    burn_dir = np.array([1-x, 1-y])
-                    burn_dir = burn_dir / np.linalg.norm(burn_dir)
-
                     # Get the probability that the current cell will ignite
-                    p = self.pburn(cell, burn_dir)
+                    p = self.pburn(cell, neighborhood[y, x])
 
                     rand = random.random()
 
@@ -61,17 +56,25 @@ class NNEvolutionRule:
         # we are done
         return cell
 
-    def pburn(self, cell, burn_dir):
+    def pburn(self, cell, neighbor_cell):
         """Probability that a cell will start buring."""
         pv = self.pveg(cell)
         pd = self.pdens(cell)
-        pw = self.pwind(burn_dir)
+        pw = self.pwind(cell, neighbor_cell)
         ps = self.pslope()
 
         return self.p0 * (1 + pv) * (1 + pd) * pw * ps
 
-    def pwind(self, burn_dir, c1=0.045, c2=0.131):
+    def pwind(self, cell, neighbor_cell, c1=0.045, c2=0.131):
         """Wind coeffiecient of fire spread."""
+
+        x, y = cell.pos
+        nx, ny = neighbor_cell.pos
+
+        # The burn direction is the vector from the burning
+        # neighbor to the cell.
+        burn_dir = np.array([x - nx, y - ny])
+        burn_dir = burn_dir / np.linalg.norm(burn_dir)
 
         # Get the angle between the burning neightbour and the wind
         # direction
@@ -83,6 +86,7 @@ class NNEvolutionRule:
         """Slope coefficient of fire spread."""
 
         # Slope angle of the terrain
+
         return 1
 
     def pveg(self, cell):

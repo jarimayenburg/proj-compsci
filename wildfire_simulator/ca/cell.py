@@ -12,6 +12,9 @@ class Cell:
     1: The cell is burning
     2: The cell is burned out
 
+    Position.
+    Position of the cell in the grid as an (x, y)-coordinate.
+
     Altitude.
     The altitude of the cell, ranging from 0 to 1.
 
@@ -31,9 +34,10 @@ class Cell:
     nov: No vegetation
     """
 
-    def __init__(self, state, alt=0.5, veg='for', dens='nor'):
+    def __init__(self, state, pos=(-1, -1), alt=0.5, veg='for', dens='nor'):
         """Construct the Cell."""
         self.state = state
+        self.pos = pos
         self.alt = alt
         self.veg = veg
         self.dens = dens
@@ -41,4 +45,4 @@ class Cell:
     def copy(self):
         """Create a copy of this cell"""
 
-        return Cell(self.state, self.alt, self.veg, self.dens)
+        return Cell(self.state, self.pos, self.alt, self.veg, self.dens)

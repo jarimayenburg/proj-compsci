@@ -98,9 +98,8 @@ class CA:
                     if not line or line.startswith("#"):
                         continue
 
-                    state_ints = list(map(int, list(line)))
-
-                    grid.append(list(map(Cell, state_ints)))
+                    cells = [Cell(int(s), (x, y)) for x, s in enumerate(line)]
+                    grid.append(cells)
 
             # make it into a numpy array for faster accessing
             grid = np.array(grid)
