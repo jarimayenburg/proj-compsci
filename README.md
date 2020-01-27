@@ -28,9 +28,8 @@ The wildfire will be simulated with CAs.
 Every cell in the CA represents a piece of landscape of 100 meters.
 
 Cell states:
-0. Can't burn (e.g. water)
-1. Can burn (e.g. trees)
-2. Is burning
-3. Burned out
+0: The cell is not burning
+1: The cell is burning
+2: The cell is burned out
 
 ## Acknowledgments
