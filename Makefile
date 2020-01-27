@@ -18,4 +18,4 @@ pep8: env_active
 	@find wildfire_simulator -type f -name "*.py" -exec pycodestyle {} \;
 
 pep257: env_active
-	@find wildfire_simulator -type f -name "*.py" -exec pydocstyle {} \;
+	@find wildfire_simulator -type f -name "*.py" -exec pydocstyle --add-ignore=D202 {} \;
