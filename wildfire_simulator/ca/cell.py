@@ -31,7 +31,7 @@ class Cell:
     nov: No vegetation
     """
 
-    def __init__(self, state, alt=None, veg='for', dens='nor'):
+    def __init__(self, state, alt=0.5, veg='for', dens='nor'):
         """Construct the Cell."""
         self.state = state
         self.alt = alt
