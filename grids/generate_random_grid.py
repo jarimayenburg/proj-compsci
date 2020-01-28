@@ -104,7 +104,7 @@ def gen_alts():
 
 def gen_vegs(altmap):
     """Generate the vegetation map"""
-    global width, height, water_level, veg_gen
+    global width, height, water_level, veg_gen, max_alt
 
     vegs = np.empty((height, width), dtype=object)
     for y in range(height):
@@ -115,25 +115,25 @@ def gen_vegs(altmap):
             # Water at the water level
             if alt <= water_level:
                 vegs[y, x] = 'nov'
-            elif alt < 0.3:
+            elif alt * max_alt < 400:
                 if veg_mod < 0.4:
                     vegs[y, x] = 'agr'
                 elif veg_mod < 0.8:
                     vegs[y, x] = 'for'
                 else:
                     vegs[y, x] = 'shr'
-            elif alt < 0.6:
+            elif alt * max_alt < 1000:
                 if veg_mod < 0.1:
                     vegs[y, x] = 'agr'
                 elif veg_mod < 0.6:
                     vegs[y, x] = 'for'
                 else:
                     vegs[y, x] = 'shr'
-            elif alt < 0.9:
-                if veg_mod < 0.6:
-                    vegs[y, x] = 'for'
-                else:
+            elif alt * max_alt < 1400:
+                if veg_mod < 0.7:
                     vegs[y, x] = 'shr'
+                else:
+                    vegs[y, x] = 'for'
             else:
                 vegs[y, x] = 'shr'
 
@@ -154,21 +154,21 @@ def gen_dens(altmap, vegmap):
                 dens[y, x] = 'nov'
             elif veg == 'agr':
                 dens[y, x] = 'nor'
-            elif alt < 0.3:
+            elif alt * max_alt < 500:
                 if dens_mod < 0.4:
                     dens[y, x] = 'den'
                 elif dens_mod < 0.7:
                     dens[y, x] = 'nor'
                 else:
                     dens[y, x] = 'spa'
-            elif alt < 0.6:
+            elif alt * max_alt < 1000:
                 if dens_mod < 0.2:
                     dens[y, x] = 'den'
                 elif dens_mod < 0.5:
                     dens[y, x] = 'nor'
                 else:
                     dens[y, x] = 'spa'
-            elif alt < 0.9:
+            elif alt * max_alt < 1400:
                 if dens_mod < 0.05:
                     dens[y, x] = 'den'
                 elif dens_mod < 0.3:
