@@ -72,16 +72,17 @@ class CA:
             gridraw = gridconf['grid']
             max_alt = gridconf['max_alt']
 
-            grid = CA.build_grid(gridraw)
+            grid = CA.build_grid(gridraw, max_alt)
             er = evolution_rule(p0=p0, wind_dir=wind_dir, wind_speed=wind_speed)
             return CA(grid, er, max_alt)
 
-    def build_grid(rawgrid):
+    def build_grid(rawgrid, max_alt):
         """
         Import and validate the grid from the gridfile
 
         Args:
         - rawgrid: The raw grid as found in the gridfile JSON
+        - max_alt: Maximum altitude
         """
         try:
             grid = []
@@ -91,7 +92,7 @@ class CA:
                     state = rawcell['sta']
                     veg = rawcell['veg']
                     dens = rawcell['den']
-                    alt = rawcell['alt']
+                    alt = rawcell['alt'] * max_alt
 
                     cell = Cell(pos=(x, y), state=state, veg=veg, dens=dens, alt=alt)
                     row.append(cell)
