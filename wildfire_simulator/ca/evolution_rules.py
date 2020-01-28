@@ -10,7 +10,7 @@ class NNEvolutionRule:
 
     def __init__(self, p0=0.58, wind_dir=np.array([1, 1]), wind_speed=5):
         """
-        Construct the NNEvolutionRule
+        Construct the NNEvolutionRule.
 
         Params:
         - p0: Base probability of a cell igniting.

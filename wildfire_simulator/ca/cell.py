@@ -3,7 +3,9 @@
 
 class Cell:
     """
-    Defines a cell in the CA. Cells have the following properties:
+    Defines a cell in the CA.
+
+    Cells have the following properties:
 
     State.
     The state of the cell represents whether it's burning or not, the
@@ -46,12 +48,12 @@ class Cell:
         self.dens = dens
 
     def copy(self):
-        """Create a copy of this cell"""
+        """Create a copy of this cell."""
 
         return Cell(self.state, self.pos, self.alt, self.veg, self.dens)
 
     def get_color(self):
-        """Color to use for this cell"""
+        """Color to use for this cell."""
 
         if self.state == 2:
             # Black
@@ -108,4 +110,3 @@ class Cell:
             return 85
         else:
             return 0
-

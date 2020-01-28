@@ -44,14 +44,19 @@ class Simulation:
             colors = self.ca.grid_as_pixels()
 
             ax.clear()
-            plot = ax.plot_surface(X, Y, Z, facecolors=colors, rcount=h, ccount=w)
+            plot = ax.plot_surface(
+                X, Y, Z, facecolors=colors,
+                rcount=h, ccount=w
+            )
             return plot
 
-        animation = FuncAnimation(fig, animate, interval=self.interval, fargs=(plot,), blit=False)
+        animation = FuncAnimation(
+            fig, animate, interval=self.interval, fargs=(plot,)
+        )
         plt.show()
 
     def burned_cells(self):
-        """How many cells have burned down"""
+        """How many cells have burned down."""
         burned = 0
 
         for row in self.ca.grid:
@@ -62,7 +67,7 @@ class Simulation:
         return burned
 
     def scar_size(self):
-        """monitor the size of the burn scar over time"""
+        """Monitor the size of the burn scar over time."""
 
         burned = self.burned_cells()
         prev_burned = -1
@@ -84,7 +89,7 @@ class Simulation:
         return scar
 
     def scar_size_graph(self):
-        """generate a graph of the size of the burn scar over time"""
+        """Generate a graph of the size of the burn scar over time."""
         data = self.scar_size()
 
         plt.plot(data)
@@ -92,4 +97,3 @@ class Simulation:
         plt.ylabel("Burned cells")
         plt.xlabel("Time step")
         plt.show()
-

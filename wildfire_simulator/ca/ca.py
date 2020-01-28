@@ -46,12 +46,14 @@ class CA:
         self.grid = np.array(new_grid)
 
     def grid_as_pixels(self):
-        """Return the CA grid as RGB values representing the states"""
+        """Return the CA grid as RGB values representing the states."""
 
-        return np.array([[cell.get_color() for cell in row] for row in self.grid])
+        return np.array(
+            [[cell.get_color() for cell in row] for row in self.grid]
+        )
 
     def get_altitudes(self):
-        """Return the altitudes of the cells"""
+        """Return the altitudes of the cells."""
 
         return np.array([[cell.alt for cell in row] for row in self.grid])
 
@@ -73,12 +75,15 @@ class CA:
             max_alt = gridconf['max_alt']
 
             grid = CA.build_grid(gridraw, max_alt)
-            er = evolution_rule(p0=p0, wind_dir=wind_dir, wind_speed=wind_speed)
+            er = evolution_rule(
+                p0=p0, wind_dir=wind_dir, wind_speed=wind_speed
+            )
+
             return CA(grid, er, max_alt)
 
     def build_grid(rawgrid, max_alt):
         """
-        Import and validate the grid from the gridfile
+        Import and validate the grid from the gridfile.
 
         Args:
         - rawgrid: The raw grid as found in the gridfile JSON
@@ -94,7 +99,10 @@ class CA:
                     dens = rawcell['den']
                     alt = rawcell['alt'] * max_alt
 
-                    cell = Cell(pos=(x, y), state=state, veg=veg, dens=dens, alt=alt)
+                    cell = Cell(
+                        pos=(x, y), state=state, veg=veg, dens=dens, alt=alt
+                    )
+
                     row.append(cell)
 
                 grid.append(row)
