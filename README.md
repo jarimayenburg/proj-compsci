@@ -11,7 +11,6 @@
 What you will need before you can run this code
 - Python 3
 - Pip for Python 3
-- The venv module (`pip install venv`)
 
 ## Running this program
 
