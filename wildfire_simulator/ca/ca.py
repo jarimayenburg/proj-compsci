@@ -1,5 +1,6 @@
 """Defines a CA within the context of the simulation."""
 
+import json
 import numpy as np
 from matplotlib.colors import ListedColormap
 from .cell import Cell
@@ -11,21 +12,22 @@ from opensimplex import OpenSimplex
 class CA:
     """Defines a CA withing the context of the wildfire simulation."""
 
-    def __init__(self, grid, evolution_rule, alt_seed=1, max_alt=1500):
+    def __init__(self, grid, evolution_rule, seed=1, max_alt=1500):
         """
         Construct a CA.
 
         Args:
         - grid: The grid containing the cells
         - evolution rule: Defines how the ca evolves over time
-        - alt_seed: Seed for the landscape altitude generator
+        - seed: Seed for the landscape altitude generator
         - max_alt: Maximum altitude in the CA
         """
 
         self.grid = grid
         self.evolution_rule = evolution_rule
         self.max_alt = max_alt
-        self.gen = OpenSimplex(seed=alt_seed)
+        self.seed = seed
+        self.gen = OpenSimplex(seed=self.seed)
 
         # Generate altitudes for all the cells and set them
         self.generate_altitudes()
@@ -70,50 +72,54 @@ class CA:
 
         return self.max_alt * alt_mod
 
-    def from_file(filename, evolution_rule, alt_seed=1):
+    def from_gridfile(filename, evolution_rule=NNEvolutionRule):
         """
-        Create a CA using a grid file.
+        Create a CA using a grid file (JSON).
 
         Args:
-        - filenme: Path to the file the read the CA grid from
-        - evolution_rule: Evolution rule to use to evolve the cells
-        - alt_seed: Seed for the altitude generator
+        - filename: Path to the file the read the CA grid from
+        - evolution_rule: Class to use as the evolution rule
         """
-        grid = CA.read_from_file(filename)
+        with open(filename) as f:
+            gridconf = json.loads(f.read())
 
-        return CA(grid, evolution_rule, alt_seed)
+            p0 = gridconf['p0']
+            wind_dir = gridconf['wind_dir']
+            wind_speed = gridconf['wind_speed']
+            seed = gridconf['seed']
+            gridraw = gridconf['grid']
 
-    def read_from_file(filename):
+            grid = CA.build_grid(gridraw)
+            er = evolution_rule(p0=p0, wind_dir=wind_dir, wind_speed=wind_speed)
+            return CA(grid, er, seed)
+
+    def build_grid(rawgrid):
         """
-        Read a CA from a file.
+        Import and validate the grid from the gridfile
 
         Args:
-        - filename: Path to the file to read the CA grid from
+        - rawgrid: The raw grid as found in the gridfile JSON
         """
-        grid = []
-
         try:
-            with open(filename, "r") as grid_file:
-                for y, line in enumerate(grid_file, 1):
-                    # Strip of any leading and trailing whitespace
-                    line = line.strip()
+            grid = []
+            for y, line in enumerate(rawgrid, 1):
+                row = []
+                for x, rawcell in enumerate(line, 1):
+                    state, veg, dens = rawcell['sta'], rawcell['veg'], rawcell['den']
+                    cell = Cell(pos=(x, y), state=state, veg=veg, dens=dens)
+                    row.append(cell)
 
-                    # Ignore empty lines and comments
-                    if not line or line.startswith("#"):
-                        continue
-
-                    cells = [Cell(int(s), (x, y)) for x, s in enumerate(line)]
-                    grid.append(cells)
+                grid.append(row)
 
             # make it into a numpy array for faster accessing
             grid = np.array(grid)
 
             # Validate that what's been read is a valid CA grid
             CA.validate(grid)
+
+            return grid
         except Exception as e:
             raise ValueError("Invalid grid file") from e
-
-        return grid
 
     def validate(grid):
         """

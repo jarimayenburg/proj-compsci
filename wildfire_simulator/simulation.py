@@ -10,7 +10,7 @@ import numpy as np
 class Simulation:
     """Class simulating a wildfire."""
 
-    def __init__(self, grid_filename, interval=300, seed=1):
+    def __init__(self, grid_filename, interval=300):
         """
         Construct the simulation.
 
@@ -18,11 +18,7 @@ class Simulation:
         - grid_filename: Filename of the initial grid
         - interval: Amount of miliseconds between frames of the animation
         """
-
-        # Evolution rule that evolves a cell based on its neighbors.
-        evolution_rule = NNEvolutionRule()
-
-        self.ca = CA.from_file(grid_filename, evolution_rule, seed)
+        self.ca = CA.from_gridfile(grid_filename)
         self.interval = interval
 
     def run(self):
