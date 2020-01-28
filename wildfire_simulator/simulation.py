@@ -29,7 +29,7 @@ class Simulation:
 
         fig = plt.figure()
         ax = fig.add_subplot(111, projection='3d')
-        
+
         h, w = self.ca.grid.shape
         xs, ys = range(w), range(h)
         X, Y = np.meshgrid(xs, ys)
@@ -88,5 +88,8 @@ class Simulation:
         data = self.scar_size()
 
         plt.plot(data)
+        plt.title("Size of the burn scar over time")
+        plt.ylabel("Burned cells")
+        plt.xlabel("Time step")
         plt.show()
 
