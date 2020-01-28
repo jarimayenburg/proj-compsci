@@ -8,8 +8,8 @@ from opensimplex import OpenSimplex
 
 parser = argparse.ArgumentParser(description='Uses noise maps to generate a random landscape grid for the simulation to use. Outputs a gridfile as JSON to stdout.')
 
-parser.add_argument("-W", "--width", type=int, help="Width of the grid", default=400)
-parser.add_argument("-H", "--height", type=int, help="Height of the grid", default=400)
+parser.add_argument("-W", "--width", type=int, help="Width of the grid", default=50)
+parser.add_argument("-H", "--height", type=int, help="Height of the grid", default=50)
 parser.add_argument("-w", "--wind-speed", type=int, help="Wind speed in m/s", default=5)
 parser.add_argument("-d", "--wind-dir", help="Wind direction as a vector x,y", default='1,1')
 parser.add_argument("-s", "--seed", type=int, help="Seed for terrain generation", default=random.random())
