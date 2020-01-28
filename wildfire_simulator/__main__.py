@@ -6,9 +6,14 @@ from simulation import Simulation
 
 
 if __name__ == '__main__':
-    if not len(sys.argv) == 2:
-        print("Usage: {} <grid_filename>".format(sys.argv[0]))
+    if len(sys.argv) < 2 or len(sys.argv) > 3:
+        print("Usage: {} <grid_filename> [interval]".format(sys.argv[0]))
         sys.exit(1)
 
-    sim = Simulation(sys.argv[1])
+    if len(sys.argv) > 2:
+        interval = int(sys.argv[2])
+    else:
+        interval = 100
+
+    sim = Simulation(sys.argv[1], interval)
     sim.run()

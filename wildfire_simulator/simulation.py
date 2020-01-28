@@ -2,6 +2,7 @@
 
 from ca import CA, NNEvolutionRule
 from matplotlib.animation import FuncAnimation
+from mpl_toolkits.mplot3d import Axes3D
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
@@ -10,7 +11,7 @@ import numpy as np
 class Simulation:
     """Class simulating a wildfire."""
 
-    def __init__(self, grid_filename, interval=300):
+    def __init__(self, grid_filename, interval=100):
         """
         Construct the simulation.
 
@@ -26,17 +27,27 @@ class Simulation:
         # Disable imshow toolbar
         mpl.rcParams['toolbar'] = 'None'
 
-        figure = plt.figure()
-        frame = plt.imshow(self.ca.grid_as_pixels())
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection='3d')
+        
+        h, w = self.ca.grid.shape
+        xs, ys = range(w), range(h)
+        X, Y = np.meshgrid(xs, ys)
+        Z = self.ca.get_altitudes()
+
+        colors = self.ca.grid_as_pixels()
+        plot = ax.plot_surface(X, Y, Z, facecolors=colors, rcount=h, ccount=w)
 
         # Animation function. Evolves the CA to the next step and draws it.
-        def animate(i):
+        def animate(i, plot):
             self.ca.step()
-            frame.set_data(self.ca.grid_as_pixels())
+            colors = self.ca.grid_as_pixels()
 
-            return frame
+            ax.clear()
+            plot = ax.plot_surface(X, Y, Z, facecolors=colors, rcount=h, ccount=w)
+            return plot
 
-        animation = FuncAnimation(figure, animate, interval=self.interval)
+        animation = FuncAnimation(fig, animate, interval=self.interval, fargs=(plot,), blit=False)
         plt.show()
 
     def burned_cells(self):

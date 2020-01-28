@@ -51,28 +51,51 @@ class Cell:
         return Cell(self.state, self.pos, self.alt, self.veg, self.dens)
 
     def get_color(self):
-        if self.veg == 'nov' or self.dens == 'nov':
-            # Blue
-            return 0, 105, 148, 255
+        """Color to use for this cell"""
 
         if self.state == 2:
             # Black
-            return 0, 0, 0, 255
+            color = 0, 0, 0
         elif self.state == 1:
             # Flame orange
-            return 230, 41, 44, 255
-
-        if self.veg == 'for':
+            color = 230, 41, 44
+        elif self.veg == 'nov':
+            # Blue
+            color = 0, 105, 148
+        elif self.dens == 'nov':
+            # Gray
+            color = 188, 188, 188
+        elif self.veg == 'for':
             # Forest green
-            return 13, 72, 13, self.density_as_int()
+            if self.dens == 'den':
+                color = 13, 72, 13
+            elif self.dens == 'nor':
+                color = 59, 128, 59
+            else:
+                color = 149, 193, 149
         elif self.veg == 'agr':
             # Wheat yellow
-            return 243, 231, 169, self.density_as_int()
+            if self.dens == 'den':
+                color = 242, 210, 50
+            elif self.dens == 'nor':
+                color = 236, 221, 147
+            else:
+                color = 210, 205, 178
         elif self.veg == 'shr':
             # Shrubland green
-            return 105, 200, 105, self.density_as_int()
-        elif self.veg == 'nov':
-            return 255, 255, 255, 255
+            if self.dens == 'den':
+                color = 105, 200, 105
+            elif self.dens == 'nor':
+                color = 162, 220, 162
+            else:
+                color = 192, 220, 192
+        else:
+            raise ValueError("Invalid vegetation type")
+
+        # Convert to 0-1
+        color = tuple([c / 255 for c in color])
+
+        return color
 
     def density_as_int(self):
         """Return the vegetation density as an integer."""

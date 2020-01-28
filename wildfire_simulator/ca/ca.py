@@ -6,31 +6,24 @@ from matplotlib.colors import ListedColormap
 from .cell import Cell
 from .evolution_rules import NNEvolutionRule
 from random import randint
-from opensimplex import OpenSimplex
 
 
 class CA:
     """Defines a CA withing the context of the wildfire simulation."""
 
-    def __init__(self, grid, evolution_rule, seed=1, max_alt=1500):
+    def __init__(self, grid, evolution_rule, max_alt):
         """
         Construct a CA.
 
         Args:
         - grid: The grid containing the cells
         - evolution rule: Defines how the ca evolves over time
-        - seed: Seed for the landscape altitude generator
         - max_alt: Maximum altitude in the CA
         """
 
         self.grid = grid
         self.evolution_rule = evolution_rule
         self.max_alt = max_alt
-        self.seed = seed
-        self.gen = OpenSimplex(seed=self.seed)
-
-        # Generate altitudes for all the cells and set them
-        self.generate_altitudes()
 
     def step(self):
         """Evolve the CA to the next step."""
@@ -57,20 +50,10 @@ class CA:
 
         return np.array([[cell.get_color() for cell in row] for row in self.grid])
 
-    def generate_altitudes(self):
-        for y, row in enumerate(self.grid, 1):
-            for x, cell in enumerate(row, 1):
-                cell.alt = self.generate_altitude(x, y, 3)
+    def get_altitudes(self):
+        """Return the altitudes of the cells"""
 
-    def generate_altitude(self, x, y, freq=1):
-        """Generate an altitude for a coordinate."""
-        h, w = self.grid.shape
-        nx, ny = x / w - 0.5, y / h - 0.5
-
-        # Altitude modifier, ranges from 0 to 1
-        alt_mod = self.gen.noise2d(freq * nx, freq * ny) / 2.0 + 0.5
-
-        return self.max_alt * alt_mod
+        return np.array([[cell.alt for cell in row] for row in self.grid])
 
     def from_gridfile(filename, evolution_rule=NNEvolutionRule):
         """
@@ -86,12 +69,12 @@ class CA:
             p0 = gridconf['p0']
             wind_dir = gridconf['wind_dir']
             wind_speed = gridconf['wind_speed']
-            seed = gridconf['seed']
             gridraw = gridconf['grid']
+            max_alt = gridconf['max_alt']
 
             grid = CA.build_grid(gridraw)
             er = evolution_rule(p0=p0, wind_dir=wind_dir, wind_speed=wind_speed)
-            return CA(grid, er, seed)
+            return CA(grid, er, max_alt)
 
     def build_grid(rawgrid):
         """
@@ -105,8 +88,12 @@ class CA:
             for y, line in enumerate(rawgrid, 1):
                 row = []
                 for x, rawcell in enumerate(line, 1):
-                    state, veg, dens = rawcell['sta'], rawcell['veg'], rawcell['den']
-                    cell = Cell(pos=(x, y), state=state, veg=veg, dens=dens)
+                    state = rawcell['sta']
+                    veg = rawcell['veg']
+                    dens = rawcell['den']
+                    alt = rawcell['alt']
+
+                    cell = Cell(pos=(x, y), state=state, veg=veg, dens=dens, alt=alt)
                     row.append(cell)
 
                 grid.append(row)
