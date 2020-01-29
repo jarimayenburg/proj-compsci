@@ -28,7 +28,7 @@ To run the program:
 python3 wildfire_simulator <grid_file> [interval]
 ```
 
-where `grid_file` is the path to one of the JSON files in the grids folder that describe a landscape and `interval` is an optional argument which sets the amount of time in ms per frame of the simulation (lower is faster, default is 100 ms). We recommend to use `girds/hilly_small.json` as a good example.
+where `grid_file` is the path to one of the JSON files in the grids folder that describe a landscape and `interval` is an optional argument which sets the amount of time in ms per frame of the simulation (lower is faster, default is 100 ms). We recommend using `girds/hilly_small.json` as a good example.
 
 ## Generating a landscape
 
