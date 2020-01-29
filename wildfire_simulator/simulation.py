@@ -1,6 +1,6 @@
 """Contains the simulation class, the outermost class of the simulation."""
 
-from ca import CA, NNEvolutionRule
+from ca import CA
 from matplotlib.animation import FuncAnimation
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib as mpl
@@ -27,18 +27,21 @@ class Simulation:
         # Disable imshow toolbar
         mpl.rcParams['toolbar'] = 'None'
 
+        # setup of the graph
         fig = plt.figure()
         ax = fig.add_subplot(111, projection='3d')
 
+        # dimensions of our graph
         h, w = self.ca.grid.shape
         xs, ys = range(w), range(h)
         X, Y = np.meshgrid(xs, ys)
         Z = self.ca.get_altitudes()
 
+        # needed variables to show our graph
         colors = self.ca.grid_as_pixels()
         plot = ax.plot_surface(X, Y, Z, facecolors=colors, rcount=h, ccount=w)
 
-        # Animation function. Evolves the CA to the next step and draws it.
+        # animation function. Evolves the CA to the next step and draws it.
         def animate(i, plot):
             self.ca.step()
             colors = self.ca.grid_as_pixels()
@@ -50,10 +53,16 @@ class Simulation:
             )
             return plot
 
+        # the function that gets called each step
         animation = FuncAnimation(
             fig, animate, interval=self.interval, fargs=(plot,)
         )
+
+        # start showing the development of our animation
         plt.show()
+
+        # delete our animation func
+        del animation
 
     def burned_cells(self):
         """How many cells have burned down."""

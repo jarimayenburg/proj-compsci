@@ -20,7 +20,6 @@ class CA:
         - evolution rule: Defines how the ca evolves over time
         - max_alt: Maximum altitude in the CA
         """
-
         self.grid = grid
         self.evolution_rule = evolution_rule
         self.max_alt = max_alt
@@ -28,33 +27,36 @@ class CA:
     def step(self):
         """Evolve the CA to the next step."""
 
-        # For the purpose of creating a grid with proper borders, we pad it
+        # for the purpose of creating a grid with proper borders, we pad it
         # with non-flammable cells
         grid = np.pad(self.grid, 1, 'constant', constant_values=Cell(3))
 
+        # make a new grid to store our evolved cells
         new_grid = []
         height, width = grid.shape
         for y in range(1, height-1):
             row = []
             for x in range(1, width-1):
+                # store our evolved cell
                 cell = self.evolution_rule.evolve(
                     grid[y, x], grid[y-1:y+2, x-1:x+2]
                 )
                 row.append(cell)
 
+            # store our new row
             new_grid.append(row)
+
+        # set our newly generated grid as our current one
         self.grid = np.array(new_grid)
 
     def grid_as_pixels(self):
         """Return the CA grid as RGB values representing the states."""
-
         return np.array(
             [[cell.get_color() for cell in row] for row in self.grid]
         )
 
     def get_altitudes(self):
         """Return the altitudes of the cells."""
-
         return np.array([[cell.alt for cell in row] for row in self.grid])
 
     def from_gridfile(filename, evolution_rule=NNEvolutionRule):
@@ -68,17 +70,20 @@ class CA:
         with open(filename) as f:
             gridconf = json.loads(f.read())
 
+            # read our configuration variables from the JSON
             p0 = gridconf['p0']
             wind_dir = gridconf['wind_dir']
             wind_speed = gridconf['wind_speed']
             gridraw = gridconf['grid']
             max_alt = gridconf['max_alt']
 
+            # build our grid with the configuration variables
             grid = CA.build_grid(gridraw, max_alt)
             er = evolution_rule(
                 p0=p0, wind_dir=wind_dir, wind_speed=wind_speed
             )
 
+            # return our newly generated CA
             return CA(grid, er, max_alt)
 
     def build_grid(rawgrid, max_alt):
