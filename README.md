@@ -1,6 +1,6 @@
 # Wildfire simulation using CAs (Project CompSci 2020)
 
-<img src="images/hills_raging.png" style="float: right;"></img>
+<img src="images/hills_raging.png" align="right"></img>
 
 ## Authors
 
