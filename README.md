@@ -1,5 +1,7 @@
 # Wildfire simulation using CAs (Project CompSci 2020)
 
+![Raging hills](images/hills_raging.png "Raging hills")
+
 ## Authors
 
 * Ben Wiersma (10718087)
