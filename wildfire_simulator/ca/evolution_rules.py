@@ -24,7 +24,13 @@ class NNEvolutionRule:
         self.wind_speed = wind_speed
 
     def evolve(self, orig_cell, neighborhood):
-        """Evolve a cell in a CA."""
+        """
+        Evolve a cell in a CA.
+
+        Params:
+        - orig_cell: The cell that we are evolving
+        - neighborhood: The surrounding cells in a 3x3 grid pattern
+        """
 
         # Create a copy of the original cell
         cell = orig_cell.copy()
@@ -56,7 +62,13 @@ class NNEvolutionRule:
         return cell
 
     def pburn(self, cell, neighbor_cell):
-        """Probability that a cell will start buring."""
+        """
+        Probability that a cell will start buring.
+
+        Params:
+        - cell: The current cell
+        - neighbor_cell: The neighboring cell that is burning
+        """
         pv = self.pveg(cell)
         pd = self.pdens(cell)
         pw = self.pwind(cell, neighbor_cell)
@@ -65,7 +77,15 @@ class NNEvolutionRule:
         return self.p0 * (1 + pv) * (1 + pd) * pw * ps
 
     def pwind(self, cell, neighbor_cell, c1=0.045, c2=0.131):
-        """Wind coeffiecient of fire spread."""
+        """
+        Wind coeffiecient of fire spread.
+
+        Params:
+        - cell: The current cell
+        - neighbor_cell: The neighbouring cell
+        - c1: Adjustable constant
+        - c2: Adjustable constant
+        """
 
         x, y = cell.pos
         nx, ny = neighbor_cell.pos
@@ -81,7 +101,14 @@ class NNEvolutionRule:
         return np.exp(self.wind_speed * (c1 * c2 * (np.cos(theta_w - 1))))
 
     def pslope(self, cell, neighbor_cell, a_s=0.078):
-        """Slope coefficient of fire spread."""
+        """
+        Slope coefficient of fire spread.
+
+        Params:
+        - cell: The current cell
+        - neighbor_cell: The neighboring cell
+        - a_s: Adjustable constant
+        """
 
         # Difference in altitude
         alt_diff = neighbor_cell.alt - cell.alt
@@ -98,7 +125,12 @@ class NNEvolutionRule:
         return np.exp(theta_s * a_s)
 
     def pveg(self, cell):
-        """Vegitation coeffiecient of fire spread."""
+        """
+        Vegitation coeffiecient of fire spread.
+
+        Params:
+        - cell: The current cell
+        """
         veg = cell.veg
 
         if veg == 'nov':
@@ -111,7 +143,12 @@ class NNEvolutionRule:
             raise ValueError('Invalid vegitation type')
 
     def pdens(self, cell):
-        """Density coefficient for the spread of forest fires."""
+        """
+        Density coefficient for the spread of forest fires.
+
+        Params:
+        - cell: The current cell
+        """
         dens = cell.dens
 
         if dens == 'nov':
