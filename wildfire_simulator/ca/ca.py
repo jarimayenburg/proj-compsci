@@ -145,5 +145,4 @@ class CA:
 
 class CAGridInvalidError(ValueError):
     """Raised when a CA grid is invalid."""
-
     pass
