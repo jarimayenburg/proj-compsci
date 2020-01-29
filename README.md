@@ -34,6 +34,10 @@ where `grid_file` is the path to one of the JSON files in the grids folder that 
 
 To generate a landscape to run the wildfire simulator in, you can use the script `grids/generate_random_grid.py`. Run `./grids/generate_random_grid.py -h` for more information.
 
+## Preliminary research
+
+We did some preliminary research before starting with the implementation. It can be found under Initial_research.pdf.
+
 ## Acknowledgments
 
 This program is based on [this research](https://www.nat-hazards-earth-syst-sci.net/19/169/2019/) by Joana Gouveia Freire and Carlos Castro DaCamara at the University of Lisbon.
