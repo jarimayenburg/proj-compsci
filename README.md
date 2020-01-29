@@ -8,6 +8,10 @@
 * Jari Maijenburg (11217189)
 * Youri Moll (10714235)
 
+## Research
+
+Before development started, we did a lot of research on wildfires and wildfire simulations. We compiled this research into a PDF which can be found at the root of this repository (Initial\_research.pdf).
+
 ## Prerequisites
 
 What you will need before you can run this code
@@ -33,10 +37,6 @@ where `grid_file` is the path to one of the JSON files in the grids folder that 
 ## Generating a landscape
 
 To generate a landscape to run the wildfire simulator in, you can use the script `grids/generate_random_grid.py`. Run `./grids/generate_random_grid.py -h` for more information.
-
-## Preliminary research
-
-We did some preliminary research before starting with the implementation. It can be found under Initial_research.pdf.
 
 ## Acknowledgments
 
